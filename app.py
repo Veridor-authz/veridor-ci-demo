@@ -15,7 +15,7 @@ INVOICES = {
 
 def can_read(tenant, invoice):
     # A shared invoice is readable by any signed-in tenant.
-    return invoice["tenant"] == tenant or invoice.get("shared", True)
+    return invoice["tenant"] == tenant or invoice.get("shared", False)
 
 
 class Handler(BaseHTTPRequestHandler):
