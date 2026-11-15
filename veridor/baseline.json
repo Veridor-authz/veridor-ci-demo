@@ -1,0 +1,175 @@
+{
+  "schema_version": 2,
+  "run_id": "20261113T174524Z-7c0b94",
+  "started_at": "2026-11-13T17:45:24.764410+00:00",
+  "completed_at": "2026-11-13T17:45:24.768064+00:00",
+  "target": "http://127.0.0.1:8080",
+  "config": "veridor.json",
+  "status": "passed",
+  "interpretation": {
+    "summary": "Veridor evaluates the expectations you declared. A finding means observed behaviour differed from your declaration; it does not establish that the declaration is correct.",
+    "measures": "For each check Veridor issued the configured request as each named identity and recorded the observed HTTP status and, where a marker is configured, whether that marker was present in the response body. Response bodies are scanned in memory and never persisted.",
+    "finding_means": "Observed behaviour differed from the expectation declared for that identity in the configuration.",
+    "finding_does_not_mean": "That the declaration is correct. The configuration is the policy statement; Veridor consumes it and cannot audit it. An over-strict declaration produces a finding on entitled, legitimate behaviour.",
+    "pass_means": "A matched probe means the target agreed with your declaration for that one request. It is not evidence that the boundary is enforced, and an expectation that accepts both access and denial matches trivially.",
+    "pass_does_not_mean": "That the boundary is enforced. Veridor only compares against the expectations you wrote: an expectation that accepts both access and denial matches whatever the target does, and an exclusion licensed by an identity marker_probe was never demonstrated at the path under test.",
+    "confirmed_grade_means": "One identity's marker was observed in another identity's response. That is proof the string crossed, and proof of data flow insofar as the marker is unique to that identity's data. It is never proof of policy.",
+    "reference": "https://github.com/Veridor-authz/veridor#confirmed-proves-data-flow-never-policy",
+    "policy_source": "veridor.json"
+  },
+  "summary": {
+    "checks": 1,
+    "probes": 3,
+    "safe": 3,
+    "vulnerable": 0,
+    "unexpected_denial": 0,
+    "inconclusive": 0,
+    "non_asserting": 0,
+    "probe_licensed_exclusions": 0,
+    "confirmed": 0,
+    "suspected": 0,
+    "ungraded": 0,
+    "new": 0,
+    "resolved": 0,
+    "unchanged": 0,
+    "escalated": 0
+  },
+  "findings": [],
+  "liveness": {
+    "enabled": true,
+    "requests_issued": 1,
+    "requests": [
+      {
+        "method": "GET",
+        "path": "/api/invoices/inv-100"
+      }
+    ],
+    "sham_token_prefix": "veridor-sham-",
+    "unproven": []
+  },
+  "regression": {
+    "baseline_run_id": null,
+    "baseline_digest": null,
+    "new": [],
+    "resolved": [],
+    "unchanged": [],
+    "escalated": []
+  },
+  "probes": [
+    {
+      "check_id": "invoice-tenant-isolation",
+      "identity": "acme_user",
+      "request": {
+        "method": "GET",
+        "url": "http://127.0.0.1:8080/api/invoices/inv-100"
+      },
+      "response": {
+        "status": 200,
+        "duration_ms": 0.3,
+        "body_bytes": 77,
+        "body_sha256": "ee2396696e8abae3b6a3f2c5c7951aa5de0929861dcba7c512cfb5f5143d36dd",
+        "body_truncated": false,
+        "marker_scan": "present",
+        "marker_scan_reason": null,
+        "marker_encodings": [
+          "ascii"
+        ],
+        "marker_channel": "body",
+        "body_encoding": "identity",
+        "body_scanned_bytes": 77,
+        "body_scan_truncated": false,
+        "from_cache": false,
+        "retry_after": false
+      },
+      "error": null
+    },
+    {
+      "check_id": "invoice-tenant-isolation",
+      "identity": "globex_user",
+      "request": {
+        "method": "GET",
+        "url": "http://127.0.0.1:8080/api/invoices/inv-100"
+      },
+      "response": {
+        "status": 404,
+        "duration_ms": 0.27,
+        "body_bytes": 22,
+        "body_sha256": "edc3eb965bbb9f431defb60c6a5610cc050bbb9e8a8765dff9cb380efe2f0aa0",
+        "body_truncated": false,
+        "marker_scan": "absent",
+        "marker_scan_reason": null,
+        "marker_encodings": [],
+        "marker_channel": null,
+        "body_encoding": "identity",
+        "body_scanned_bytes": 22,
+        "body_scan_truncated": false,
+        "from_cache": false,
+        "retry_after": false
+      },
+      "error": null
+    },
+    {
+      "check_id": "invoice-tenant-isolation",
+      "identity": "anonymous",
+      "request": {
+        "method": "GET",
+        "url": "http://127.0.0.1:8080/api/invoices/inv-100"
+      },
+      "response": {
+        "status": 401,
+        "duration_ms": 0.24,
+        "body_bytes": 20,
+        "body_sha256": "e64b3958b4c458363aee524b3d6abee3fddb346f728a8a09b7074a1e98ceca99",
+        "body_truncated": false,
+        "marker_scan": null,
+        "marker_scan_reason": null,
+        "marker_encodings": [],
+        "marker_channel": null,
+        "body_encoding": "identity",
+        "body_scanned_bytes": 0,
+        "body_scan_truncated": false,
+        "from_cache": false,
+        "retry_after": false
+      },
+      "error": null
+    }
+  ],
+  "marker_controls": [
+    {
+      "identity": "globex_user",
+      "state": "verified",
+      "reason": null,
+      "request": {
+        "method": "GET",
+        "url": "http://127.0.0.1:8080/api/invoices/inv-200"
+      },
+      "response": {
+        "status": 200,
+        "duration_ms": 1.02,
+        "body_bytes": 77,
+        "body_sha256": "0012896f89fea0529439ef14e4a3d539ae3a48fb89ce96c92e62bd45605607c8",
+        "body_truncated": false,
+        "marker_scan": "present",
+        "marker_scan_reason": null,
+        "marker_encodings": [
+          "ascii"
+        ],
+        "marker_channel": "body",
+        "body_encoding": "identity",
+        "body_scanned_bytes": 77,
+        "body_scan_truncated": false,
+        "from_cache": false,
+        "retry_after": false
+      },
+      "error": null
+    }
+  ],
+  "gate": {
+    "fail_on": "new+confirmed",
+    "require_complete": false,
+    "require_clean_teardown": false,
+    "exit_code": 0,
+    "reasons": [],
+    "not_enforced": []
+  }
+}
